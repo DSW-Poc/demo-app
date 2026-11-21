@@ -1,0 +1,14 @@
+name: ci
+on: [push, pull_request]
+
+jobs:
+  build:
+    uses: DSW-Poc/reusable-workflows/.github/workflows/build-test.yml@v1
+    with:
+      node-version: "22"
+
+  report:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Built artifact ${{ needs.build.outputs.artifact-name }}"
