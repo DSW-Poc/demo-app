@@ -1,0 +1,27 @@
+name: infra
+
+on:
+  push:
+    branches: [main]
+    paths: ["infra/**", ".github/workflows/infra.yml"]
+  workflow_dispatch:
+
+jobs:
+  prod:
+    # One Terraform run per environment at a time; a newer run queues instead of
+    # planning against state that an in-flight apply is about to change.
+    concurrency:
+      group: terraform-prod
+      cancel-in-progress: false
+    permissions:
+      id-token: write
+      contents: read
+    uses: DSW-Poc/reusable-workflows/.github/workflows/terraform.yml@v1
+    with:
+      environment: prod
+      working-directory: infra
+      aws-region: ${{ vars.AWS_REGION }}
+      plan-role-arn: ${{ vars.AWS_ROLE_ARN_PROD_PLAN }}
+      apply-role-arn: ${{ vars.AWS_ROLE_ARN_PROD_APPLY }}
+      state-bucket: ${{ vars.TF_STATE_BUCKET }}
+      state-key: demo-app/prod/terraform.tfstate
