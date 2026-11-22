@@ -1,0 +1,21 @@
+name: infra-pr
+
+# Every PR to main gets a Checkov scan of infra/.
+# No `paths:` filter on purpose: this check is REQUIRED by the ruleset on main,
+# and a workflow skipped by a path filter leaves a required check "Expected" forever,
+# which blocks the merge.
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  scan:
+    name: scan
+    permissions:
+      contents: read
+      security-events: write
+    uses: DSW-Poc/reusable-workflows/.github/workflows/terraform-checkov.yml@v1
+    with:
+      working-directory: infra
+      # Fork PRs get a read-only token, so they can't upload SARIF. Skip it there.
+      upload-sarif: ${{ !github.event.pull_request.head.repo.fork }}
