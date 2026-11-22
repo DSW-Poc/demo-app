@@ -21,6 +21,6 @@ jobs:
       contents: read
     uses: DSW-Poc/reusable-workflows/.github/workflows/aws-identity.yml@v1
     with:
-      environment: dev
+      environment: staging
       role-arn: ${{ vars.AWS_ROLE_ARN_DEV }}   # repo variable, not a secret: no keys anywhere
       aws-region: ${{ vars.AWS_REGION }}
