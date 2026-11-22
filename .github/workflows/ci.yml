@@ -17,10 +17,9 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/main'
     permissions:                      # the caller grants; the reusable workflow can only reduce
-      id-token: write
       contents: read
     uses: DSW-Poc/reusable-workflows/.github/workflows/aws-identity.yml@v1
     with:
-      environment: staging
+      environment: dev
       role-arn: ${{ vars.AWS_ROLE_ARN_DEV }}   # repo variable, not a secret: no keys anywhere
       aws-region: ${{ vars.AWS_REGION }}
