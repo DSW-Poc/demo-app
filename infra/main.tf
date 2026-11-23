@@ -26,7 +26,7 @@ variable "greeting" {
 
 resource "aws_ssm_parameter" "greeting" {
   name  = "/demo-app/prod/greeting2"
-  type  = "String"
+  type  = "SecureString"
   value = var.greeting
 }
 
