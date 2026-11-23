@@ -21,7 +21,7 @@ provider "aws" {}
 variable "greeting" {
   description = "Change this and push to main to see plan -> approval -> apply"
   type        = string
-  default     = "hello from demo-app v1"
+  default     = "hello from demo-app v2"
 }
 
 resource "aws_ssm_parameter" "greeting" {
