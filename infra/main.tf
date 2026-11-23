@@ -25,6 +25,7 @@ variable "greeting" {
 }
 
 resource "aws_ssm_parameter" "greeting" {
+  # checkov:skip=CKV_AWS_337:Public greeting, not sensitive; AWS-managed aws/ssm key is sufficient
   name  = "/demo-app/prod/greeting2"
   type  = "SecureString"
   value = var.greeting
